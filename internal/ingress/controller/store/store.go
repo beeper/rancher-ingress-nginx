@@ -293,6 +293,9 @@ func New(
 		} else {
 			options.LabelSelector = "OWNER!=TILLER"
 		}
+
+		// Beep: filter out BCM resources
+		options.LabelSelector += ",managed-by!=bridge-cluster-manager"
 	}
 
 	// As of HELM >= v3 helm releases are stored using Secrets instead of ConfigMaps.
@@ -305,6 +308,13 @@ func New(
 			options.FieldSelector = helmAntiSelector.String()
 		} else {
 			options.FieldSelector = fields.AndSelectors(baseSelector, helmAntiSelector).String()
+		}
+
+		// Beep: filter out BCM resources
+		if len(options.LabelSelector) > 0 {
+			options.LabelSelector += ",managed-by!=bridge-cluster-manager"
+		} else {
+			options.LabelSelector = "managed-by!=bridge-cluster-manager"
 		}
 	}
 
