@@ -54,9 +54,9 @@ export GO_LDFLAGS="-linkmode=external -buildid= \
     -X ${PKG}/version.COMMIT=${COMMIT_SHA} \
     -X ${PKG}/version.REPO=${REPO_INFO}"
 
-go-build-static.sh -trimpath -o "rootfs/bin/${ARCH}/nginx-ingress-controller" "${PKG}/cmd/nginx"
-go-build-static.sh -trimpath -o "rootfs/bin/${ARCH}/dbg" "${PKG}/cmd/dbg"
-go-build-static.sh -trimpath -o "rootfs/bin/${ARCH}/wait-shutdown" "${PKG}/cmd/waitshutdown"
+go-build-static.sh -buildvcs=false -trimpath -o "rootfs/bin/${ARCH}/nginx-ingress-controller" "${PKG}/cmd/nginx"
+go-build-static.sh -buildvcs=false -trimpath -o "rootfs/bin/${ARCH}/dbg" "${PKG}/cmd/dbg"
+go-build-static.sh -buildvcs=false -trimpath -o "rootfs/bin/${ARCH}/wait-shutdown" "${PKG}/cmd/waitshutdown"
 
 go-assert-static.sh rootfs/bin/${ARCH}/*
 if [[ ${ARCH} = "amd64" ]]; then
