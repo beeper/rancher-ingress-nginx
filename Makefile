@@ -245,21 +245,10 @@ build-ingress-controller: ensure-buildx clean
 	docker build \
 		--no-cache \
 		--progress plain \
-		--platform $(subst $(SPACE),$(COMMA),$(PLATFORMS)) $(OUTPUT) \
+		--platform linux/$(subst $(SPACE),$(COMMA),$(PLATFORMS)) $(OUTPUT) \
 		--build-arg BASE_IMAGE="$(BASE_IMAGE)" \
 		--build-arg VERSION="$(TAG)" \
 		--build-arg COMMIT_SHA="$(COMMIT_SHA)" \
 		--build-arg TARGETARCH="$(ARCH)" \
 		--build-arg BUILD_ID="$(BUILD_ID)" \
-		-t $(REGISTRY)/nginx-ingress-controller:$(TAG)-$(PLATFORMS) rootfs
-
-	docker build \
-			--no-cache \
-			--progress plain \
-			--platform $(subst $(SPACE),$(COMMA),$(PLATFORMS)) $(OUTPUT) \
-			--build-arg BASE_IMAGE="$(BASE_IMAGE)" \
-			--build-arg VERSION="$(TAG)" \
-			--build-arg COMMIT_SHA="$(COMMIT_SHA)" \
-			--build-arg TARGETARCH="$(ARCH)" \
-			--build-arg BUILD_ID="$(BUILD_ID)" \
-			-t $(REGISTRY)/nginx-ingress-controller-chroot:$(TAG)-$(PLATFORMS) rootfs -f rootfs/Dockerfile-chroot
+		-t $(REGISTRY)/beeper-nginx-ingress-controller:$(TAG)-$(PLATFORMS) rootfs
